@@ -1,4 +1,6 @@
 import CreateNoteForm from "./form";
+import NoteManager from "./noteManager";
+
 interface Note {
     title: string;
     content: string;
@@ -7,8 +9,14 @@ interface Note {
 
 export default async function NotesDisplay()
 {
-    const response = await fetch("http://localhost:5204/api/notesapi");
+    const response = await fetch("http://localhost:5204/api/notesapi", {
+        cache: 'no-cache' // This ensures Next.js doesn't cache stale data
+    });
     console.log("STATUS:", response.status, response.statusText);
+    if (!response.ok)
+    {
+        return <div>Failed to load notes.</div>
+    }
 
     const data = await response.json();
     console.log("What did C# actually send?", data);
@@ -16,25 +24,13 @@ export default async function NotesDisplay()
     const notes: Note[] = data;
 
     return (
-        <div className="flex flex-col gap-10">
-            <CreateNoteForm/>
-            <h1>Your Notes</h1>
-
-            {/* Responsive grid of notes */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {notes.map((note) => (
-                    <div
-                    key={note.id}
-                    className="flex flex-col items-center p-5 border border-white text-white">
-                        <h2>
-                            {note.title}
-                        </h2>
-                        <p>{note.content}</p>
-                    </div>
-                ))}
-            </div>
+        <main className="p-8">
             
-        </div>
-        
+            <h1 className="text-3xl font-bold mb-8">Your Notes</h1>
+            <CreateNoteForm/>
+
+            <NoteManager notes={notes} />
+            
+        </main>    
     )
 }
