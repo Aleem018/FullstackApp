@@ -77,8 +77,8 @@ export default function NoteManager({ notes }: { notes: Note[] }) {
                             className="absolute top-4 right-4 w-5 h-5 cursor-pointer"
                         />
                         <div className="flex justify-between">
-                            <h2 className="text-xl font-bold pr-8">{note.title}</h2>
-                            <p className="mr-6">{new Date(note.createdAt).toLocaleDateString()}</p>
+                            <h2 className="text-xl font-bold pr-5">{note.title}</h2>
+                            <p className="flex mr-6 text-sm items-center">{new Date(note.createdAt).toLocaleDateString()} . {new Date(note.createdAt).toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}</p>
                         </div>
                         <p className="mt-2 text-gray-600">{note.content}</p>
                     </div>
