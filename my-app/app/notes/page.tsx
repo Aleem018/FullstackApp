@@ -5,6 +5,7 @@ interface Note {
     title: string;
     content: string;
     id: number;
+    createdAt: Date;
 }
 
 export default async function NotesDisplay() {
